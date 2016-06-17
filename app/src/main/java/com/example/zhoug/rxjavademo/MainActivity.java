@@ -10,6 +10,7 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
 import rx.functions.Action1;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
@@ -18,11 +19,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // demo1();
-        // demo2();
-         //demo3();
-      //  demo4();
-        demo5();
+        demo1();
+      //  demo2();
+       //  demo3();
+      // demo4();
+       demo5();
+      //  demo6();
+    }
+
+    private void demo6() {
+        Observable observable = Observable.just("").map(new Func1<String,Integer>() {
+            @Override
+            public Integer call(String s) {
+                return null;
+            }
+
+        });
     }
 
     private void demo5() {
@@ -43,12 +55,9 @@ public class MainActivity extends AppCompatActivity {
          observeOn(): 指定 Subscriber 所运行在的线程。或者叫做事件消费的线程。
          */
         Action1<String> action1 = new Action1<String>() {
-
-
             @Override
             public void call(String s) {
                 Log.e("flag",s);
-
             }
         };
         Observable.just("he","111").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(action1);
@@ -62,14 +71,11 @@ public class MainActivity extends AppCompatActivity {
          */
         Action1<String> action1 = new Action1<String>() {
 
-
             @Override
             public void call(String s) {
                 Log.e("flag",s);
-
             }
         };
-
         Action1<Throwable> actionerror = new Action1() {
             @Override
             public void call(Object o) {
@@ -77,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 /**
- * Action0  onCompleted() 的内容打包起来将自己作为一个参数传入 subscribe() 以实现不完整定义的回调
+ * Action0  onCompleted() 的内容打包起来将自己作为一个参数传入 subscribe() 以实现不完整定义的回调11111111
  */
         Action0  commplet = new Action0() {
             @Override
@@ -112,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onNext(String s) {
+                //依次打印数组
                 Log.e("flag",s);
             }
         };
@@ -136,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onNext(String s) {
+                //依次打印
                 Log.e("flag",s);
 
             }
@@ -159,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         /**
-         * Subscriber是Observable的父类，基本用法和Observable一样,增加了onStart()方法和
+         * Subscriber是Observer的父类，基本用法和Observer一样,增加了onStart()方法和
          */
         Subscriber<String> subscribe = new Subscriber<String>() {
             @Override
@@ -205,7 +213,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        observable.subscribe(subscribe);
+        observable.subscribe(observer);
 
 
     }
